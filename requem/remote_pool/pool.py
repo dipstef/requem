@@ -2,9 +2,9 @@ import multiprocessing
 from multiprocessing.managers import SyncManager
 
 from procol.queue import ProducerConsumerThread
-from procol.queue.intra_processes import ProducerConsumer
 
-import quecco.scope as db_scope
+from procol.queue.intra_processes import ProducerConsumer
+from quecco import scope as db_scope
 
 
 class ConnectionsPool(object):

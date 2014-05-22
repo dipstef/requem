@@ -1,5 +1,5 @@
 from procol.console import print_err_trace
-import quecco.scope as db_scope
+from quecco import scope as db_scope
 
 from quelo.error import DbError, ClosedCursor
 from quecco.process.connections import CursorNotFound, DbConnections

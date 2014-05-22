@@ -12,7 +12,8 @@ setup(name=name,
       author_email='dipstef@github.com',
       url='http://github.com/dipstef/{}/'.format(name),
       description=desc,
-      packages = ['requem.commands', 'requem.http', 'requem.remote_pool', 'requem.remote_queue', 'requem.zeromq'],
+      packages = ['requem', 'requem.commands', 'requem.http', 'requem.remote_pool', 'requem.remote_queue',
+                  'requem.zeromq'],
       platforms=['Any'],
       requires=['pyzmq', 'web.py', 'quecco']
 )
