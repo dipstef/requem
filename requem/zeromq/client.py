@@ -1,12 +1,12 @@
 from ..client import DatabaseClient
 from ..commands.client import RemoteDatabasesClient
 import zmq
+from requem.zeromq import context
 
 
 class ZeroMqClient(object):
 
     def __init__(self, host, port):
-        context = zmq.Context()
         self._socket = context.socket(zmq.REQ)
         self._socket.connect('tcp://{}:{}'.format(host, port))
 

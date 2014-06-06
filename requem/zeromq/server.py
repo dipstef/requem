@@ -2,6 +2,7 @@
 import zmq
 
 from ..commands import DbCommands
+from requem.zeromq import context
 
 
 class DatabaseWorker(object):
@@ -9,8 +10,7 @@ class DatabaseWorker(object):
     def __init__(self, connections, port, local=False):
         self.host = '127.0.0.1' if local else '0.0.0.0'
         self.port = port
-        self._context = zmq.Context()
-        self._socket = self._context.socket(zmq.REP)
+        self._socket = context.socket(zmq.REP)
         self._commands = DbCommands(connections)
 
     def start(self):
