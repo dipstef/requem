@@ -64,22 +64,3 @@ def _parse_result(result):
         raise result
     else:
         return result
-
-
-def main():
-    from softarchive.contrib.db.connection.sqlite import db_cursor
-    from softarchive.config.deployment import database_queue
-    from softarchive.util.requem.zeromq.client import ZeroMqDatabaseClient
-
-    database = ZeroMqDatabaseClient(database_queue.host, database_queue.port).connection('files-ebooks')
-
-    with db_cursor(database) as cursor:
-        results = cursor.select(u'''select *
-                                      from location
-                                      limit ?''', (1000, ))
-        for result in results:
-            print result
-
-
-if __name__ == '__main__':
-    main()
