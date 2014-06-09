@@ -1,6 +1,6 @@
 from contextlib import closing
 
-from httpy.client import HttpServerRequests
+from httpy_client import HttpServerRequests
 from procol.console import print_err_trace
 import quecco
 from requem.remote_queue.queue import remote_connections
