@@ -1,4 +1,4 @@
-from httpy_client import HttpServerRequests
+from httpy.client import HttpServerRequests
 from quelo.query import get_value
 
 from requem.http.client import DatabaseHttpClient
