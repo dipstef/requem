@@ -1,4 +1,4 @@
-from procol.queue.remote_manager import queue_server
+from procol.queue.manager import queue_server
 from .queue import RemoteConnectionsQueue
 
 

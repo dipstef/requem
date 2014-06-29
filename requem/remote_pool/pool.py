@@ -1,9 +1,9 @@
 import multiprocessing
 from multiprocessing.managers import SyncManager
 
-from procol.queue import ProducerConsumerThread
+from procol.queue import ProducerThread
 
-from procol.queue.intra_processes import ProducerConsumer
+from procol.queue.ipc import ProducerConsumer
 from quecco import scope as db_scope
 
 
@@ -34,7 +34,7 @@ class ConnectionsPool(object):
             return self._connections_dict.get(database_name)
 
 
-class PoolManagerThread(ProducerConsumerThread):
+class PoolManagerThread(ProducerThread):
 
     def __init__(self, connections):
         super(PoolManagerThread, self).__init__(ProducerConsumer)

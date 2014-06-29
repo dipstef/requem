@@ -1,15 +1,14 @@
-from procol.queue import ProducerConsumerThread
-from procol.queue.remote_manager import queue_manager_process
-from procol.queue.intra_processes import ProducerConsumer
+from procol.queue import ProducerThread
+from procol.queue.manager import queue_manager_process
+from procol.queue.ipc import ProducerConsumer
 
 from ..commands import DbCommands
 
 
-class RemoteConnectionsQueue(ProducerConsumerThread):
+class RemoteConnectionsQueue(ProducerThread):
     def __init__(self, connections):
-        super(RemoteConnectionsQueue, self).__init__(ProducerConsumer)
+        super(RemoteConnectionsQueue, self).__init__(ProducerConsumer, producer=self._produce)
         self._commands = DbCommands(connections)
-        self.produce(produce_fun=self._produce)
 
     def _produce(self, command):
         return self._execute_command(*command)
