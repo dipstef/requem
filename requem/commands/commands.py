@@ -1,12 +1,12 @@
 from procol.console import print_err_trace
-from quecco import scope as db_scope
+import quecco
 
 from quelo.error import DbError, ClosedCursor
 from quecco.process.connections import CursorNotFound, DbConnections
 
 
 class DatabasesCommands(object):
-    def __init__(self, db_connections, scope=db_scope.local):
+    def __init__(self, db_connections, scope=quecco.local):
         self._databases = DbConnections(db_connections)
         self.connections = ConnectionCommands(self)
         self._connection_scope = scope

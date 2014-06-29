@@ -4,7 +4,7 @@ from multiprocessing.managers import SyncManager
 from procol.queue import ProducerThread
 
 from procol.queue.ipc import ProducerConsumer
-from quecco import scope as db_scope
+import quecco
 
 
 class ConnectionsPool(object):
@@ -25,7 +25,7 @@ class ConnectionsPool(object):
     def _connect(self, database_name, **kwargs):
         connection_fun = self._connections[database_name]
 
-        connection = connection_fun(scope=db_scope.processes)
+        connection = connection_fun(scope=quecco.ipc)
         self._connections_dict[database_name] = connection
         return connection
 
@@ -37,9 +37,9 @@ class ConnectionsPool(object):
 class PoolManagerThread(ProducerThread):
 
     def __init__(self, connections):
-        super(PoolManagerThread, self).__init__(ProducerConsumer)
+        super(PoolManagerThread, self).__init__(ProducerConsumer, producer=self._produce)
         self._pool = ConnectionsPool(connections)
-        self.produce(produce_fun=self._produce)
+        self.start()
 
     def _produce(self, command):
         return self._create_connection(*command)

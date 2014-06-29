@@ -35,8 +35,9 @@ class RemoteConnectionClient(closing):
         self._client.close()
 
 
-class RemoteCursorClient(object):
+class RemoteCursorClient(closing):
     def __init__(self, cursor, client):
+        super(RemoteCursorClient, self).__init__(self)
         self._cursor = cursor
         self._client = client
 

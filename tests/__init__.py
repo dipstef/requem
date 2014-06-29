@@ -3,22 +3,12 @@ import os
 
 import quecco
 
-
-class TestDatabaseConnection(object):
-
-    def __init__(self):
-        self._path = os.path.join(os.path.dirname(__file__), 'test.db')
-        atexit.register(self._remove_path)
-
-    def __call__(self, scope=quecco.scope.local):
-        return quecco.connect(self._path, scope=scope)
-
-    def __exit__(self, *args):
-        self._remove_path()
-
-    def _remove_path(self):
-        if os.path.exists(self._path):
-            os.remove(self._path)
+_db = os.path.join(os.path.dirname(__file__), 'test.db')
+_init_file = os.path.join(os.path.dirname(__file__), 'test.sql')
 
 
-connections = {'test': TestDatabaseConnection()}
+def _connect(scope=quecco.local):
+    return scope(_db, init_file=_init_file)
+
+
+connections = {'test': _connect}

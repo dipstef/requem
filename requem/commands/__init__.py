@@ -9,7 +9,7 @@ class DatabaseCommand(object):
 
 class DbCommands(object):
 
-    def __init__(self, db_connections, scope=quecco.scope.local):
+    def __init__(self, db_connections, scope=quecco.local):
         databases = DatabasesCommands(db_connections, scope)
 
         commands = {DatabaseCommand.CONN: databases.connect,
@@ -31,10 +31,10 @@ class DbCommands(object):
         self._databases.close()
 
 
-class IntraProcessDbCommands(DatabasesCommands):
+class InProcessDbCommands(DatabasesCommands):
 
     def __init__(self, db_connections):
-        super(IntraProcessDbCommands, self).__init__(db_connections, quecco.scope.threads)
+        super(InProcessDbCommands, self).__init__(db_connections, quecco.threads)
 
 
 class DatabaseExecute(namedtuple('DatabaseExecute', ['command', 'args', 'kwargs'])):

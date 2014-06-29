@@ -4,7 +4,7 @@ import sys
 import web
 from unicoder import encoded, to_unicode
 
-from ..commands import IntraProcessDbCommands
+from ..commands import InProcessDbCommands
 from ..commands.connection import connection_tuple, cursor_tuple
 
 
@@ -73,13 +73,14 @@ def _query_args():
 
 def serve(db_connections, port):
     global databases, connections, cursors
-    databases = IntraProcessDbCommands(db_connections)
+    databases = InProcessDbCommands(db_connections)
     connections = databases.connections
     cursors = connections.cursors
 
     sys.argv = ['localhost']
     sys.argv.append(str(port))
     app.run()
+
     #After Keyboard Interrupt
     print 'Closing Connections'
     databases.close()
