@@ -1,4 +1,4 @@
-from procol.queue.remote_manager import queue_client
+from procol.queue.manager import queue_client
 from quelo.query import get_value
 from requem.commands.client import RemoteDatabasesClient
 
