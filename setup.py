@@ -35,7 +35,7 @@ settings = dict(
     url='https://github.com/dipstef/requem',
     classifiers=CLASSIFIERS,
     keywords='sqlite3 database concurrent threads process ipc remote sql',
-    packages=['requem', 'requem.commands', 'requem.http', 'requem.pool', 'requem.queue','requem.zeromq'],
+    packages=['requem', 'requem.commands', 'requem.http', 'requem.pool', 'requem.queue', 'requem.zeromq'],
     test_suite='tests',
     requires=['pyzmq', 'web.py', 'quecco']
 )
