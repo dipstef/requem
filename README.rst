@@ -71,16 +71,17 @@ executing 100 times:
 .. code-block:: sql
     select 1
 
+.. code-block::
 
-================Local===============
-Single Connection:   0.0456030368805
-Threads Queue:       0.945885896683
-Process Queue:       0.977910041809
-Zero Mq:             1.28202390671
-===============Remote===============
-Zero Mq:             1.36838197708
-Remote Queue:        1.65378189087
-Http:                94.9913551807
+    ================Local===============
+    Single Connection:   0.0456030368805
+    Threads Queue:       0.945885896683
+    Process Queue:       0.977910041809
+    Zero Mq:             1.28202390671
+    ===============Remote===============
+    Zero Mq:             1.36838197708
+    Remote Queue:        1.65378189087
+    Http:                94.9913551807
 
 The http interface running on ``web.py`` relies in threads based producer consumer queue as every http request
 is handled by a new thread.
