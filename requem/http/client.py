@@ -61,17 +61,17 @@ class DatabaseHttpCursor(closing):
         self._client = client
         self._cursor_path = database_cursor_url(database, connection_id, cursor_id)
 
-    def select(self, query, args):
+    def select(self, query, args=()):
         body = self._client.get(self._cursor_path, query=query, args=_encode(args))
-        return pickle.loads(body)
+        return _load(body)
 
-    def execute(self, query, args):
+    def execute(self, query, args=()):
         body = self._client.post(self._cursor_path, query=query, args=_encode(args))
-        return pickle.loads(body)
+        return _load(body)
 
     def close(self):
         body = self._client.delete(self._cursor_path)
-        return pickle.loads(body)
+        return _load(body)
 
 
 def _encode(args):
@@ -80,3 +80,10 @@ def _encode(args):
 
 def _encoded_tuple(args):
     return tuple(encoded(arg) if isinstance(arg, unicode) else arg for arg in args)
+
+
+def _load(body):
+    result = pickle.loads(body)
+    if isinstance(result, BaseException):
+        raise result
+    return result

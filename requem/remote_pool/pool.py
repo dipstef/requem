@@ -51,7 +51,10 @@ class PoolManagerThread(ProducerThread):
         return connection
 
     def connect(self, database_name, **connection_args):
-        return self.execute((database_name, connection_args))
+        result = self.execute((database_name, connection_args))
+        if isinstance(result, BaseException):
+            raise result
+        return result
 
 
 class ConnectionsPoolManager(SyncManager):

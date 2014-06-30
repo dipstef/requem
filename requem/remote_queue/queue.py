@@ -17,7 +17,10 @@ class RemoteConnectionsQueue(ProducerThread):
         return self._commands.execute(command, *args, **kwargs)
 
     def execute(self, command, *args, **kwargs):
-        return super(RemoteConnectionsQueue, self).execute((command, args, kwargs))
+        result = super(RemoteConnectionsQueue, self).execute((command, args, kwargs))
+        if isinstance(result, BaseException):
+            raise result
+        return result
 
     def _done_requests(self):
         self.close()

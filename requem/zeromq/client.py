@@ -13,8 +13,10 @@ class ZeroMqClient(object):
     def execute(self, command, *args, **kwargs):
         self._socket.send_pyobj((command, args, kwargs))
 
-        results = self._socket.recv_pyobj()
-        return results
+        result = self._socket.recv_pyobj()
+        if isinstance(result, BaseException):
+            raise result
+        return result
 
     def close(self):
         self._socket.close()
@@ -28,16 +30,3 @@ class DatabasesZeroMqClient(RemoteDatabasesClient):
 class ZeroMqDatabaseClient(DatabaseClient):
     def __init__(self, host, port):
         super(ZeroMqDatabaseClient, self).__init__(DatabasesZeroMqClient(host, port))
-
-
-def main():
-    from softarchive.config.deployment import database_queue
-
-    client = ZeroMqDatabaseClient(database_queue.host, database_queue.port)
-    with client.connection('downloads') as connection:
-        with connection.cursor() as cursor:
-            for i in range(10000):
-                print cursor.select('''select 1''')
-
-if __name__ == '__main__':
-    main()

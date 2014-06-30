@@ -8,10 +8,9 @@ from ..commands import InProcessDbCommands
 from ..commands.connection import connection_tuple, cursor_tuple
 
 
-urls = ('/database/(.+)/', 'DatabaseService',
+urls = ('/database/(.+)/conn/(\d+)/cursor/(\d+)', 'CursorService',
         '/database/(.+)/conn/(\d+)', 'ConnectionService',
-        '/database/(.+)/conn/(\d+)/cursor/(\d+)', 'CursorService')
-
+        '/database/(.+)', 'DatabaseService',)
 
 app = web.application(urls, globals())
 

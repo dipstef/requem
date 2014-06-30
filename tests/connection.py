@@ -16,7 +16,7 @@ def test_connection(cursor):
     try:
         cursor.execute('''insert into full_name(name, surname)
                                     values(?,?) ''', ('hulk', 'hogan'))
-
+        assert False
     except UniqueColumnsConstraintViolation, e:
         print e
         assert e.columns == ['name', 'surname']
@@ -29,16 +29,19 @@ def test_connection(cursor):
     try:
         cursor.execute('''insert into full_name(id, name, surname)
                                     values(?,?,?) ''', (full_name_id, 'corky', 'butchek'))
+        assert False
     except PrimaryKeyViolation, e:
         print e
 
     try:
         cursor.execute('''insert into unknown(id) values(1)''')
+        assert False
     except TableNotExisting, e:
         print e
 
     try:
         cursor.execute('''insert into person(full_name_id, social_number)
                                     values(?,?)''', (-1, 'the_hulk'))
+        assert False
     except ForeignKeyError, e:
         print e
