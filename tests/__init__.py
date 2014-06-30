@@ -1,6 +1,4 @@
-import atexit
 import os
-
 import quecco
 
 _db = os.path.join(os.path.dirname(__file__), 'test.db')

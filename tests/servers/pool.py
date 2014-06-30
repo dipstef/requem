@@ -1,4 +1,4 @@
-from requem.queue.server import serve
+from requem.pool.server import serve
 from tests import connections
 
 

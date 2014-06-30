@@ -6,6 +6,8 @@ from procol.queue import ProducerThread
 from procol.queue.ipc import ProducerConsumer
 import quecco
 
+from .connection import connection_proxy
+
 
 class ConnectionsPool(object):
 
@@ -61,68 +63,30 @@ class ConnectionsPoolManager(SyncManager):
         pass
 
 
-def pool_manager(pool, address=None):
-    _pool_manager = ConnectionsPoolManager(address=address, authkey='123456')
+def pool_manager(connections, address=None):
+    manager = ConnectionsPoolManager(address=address, authkey='123456')
 
-    pool = PoolManagerThread(pool)
+    pool = PoolManagerThread(connections)
 
     ConnectionsPoolManager.register('get_pool', callable=lambda: pool)
-
-    return _pool_manager
-
-
-def pool_manager_process(pool):
-    _pool_manager = pool_manager(pool)
-
-    _pool_manager.start()
-
-    return _pool_manager.get_pool()
-
-
-def connection_manager(connection, auth_key=None):
-    class ConnectionManager(SyncManager):
-        pass
-
-    conn = ConnectionProxy(connection)
-    ConnectionManager.register('get_connection', callable=lambda: conn)
-    #auth_key = auth_key or multiprocessing.current_process().authkey
-
-    manager = ConnectionManager(authkey=auth_key)
-    manager.start()
 
     return manager
 
 
-def connection_proxy(connection, auth_key=None):
-    manager = connection_manager(connection, auth_key)
+def pool_manager_process(connections):
+    manager = pool_manager(connections)
 
-    return manager.get_connection()
-
-
-class ConnectionProxy(object):
-    def __init__(self, conn):
-        self._conn = conn
-
-    def cursor(self):
-        cursor = cursor_manager(self._conn.cursor())
-        return cursor
-
-    def commit(self):
-        self._conn.commit()
-
-    def close(self):
-        self._conn.close()
-
-
-def cursor_manager(cursor, auth_key=None):
-    class CursorManager(SyncManager):
-        pass
-
-    CursorManager.register('cursor', callable=lambda: cursor)
-
-    #auth_key = auth_key or multiprocessing.current_process().authkey
-
-    manager = CursorManager(authkey=auth_key)
     manager.start()
-    proxy = manager.cursor()
-    return proxy
+
+    return manager.get_pool()
+
+
+def pool_client(server_address=None):
+    ConnectionsPoolManager.register('get_pool')
+
+    queue = ConnectionsPoolManager(address=server_address, authkey='123456')
+    queue.connect()
+
+    pool = queue.get_pool()
+
+    return pool

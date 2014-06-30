@@ -6,5 +6,6 @@ def serial_test(conn, numbers=10, times=1):
     def _serial_test():
         for i in xrange(1, numbers + 1):
             r = select_number(conn, i)
+            assert r == i
 
     return timeit.timeit(_serial_test, number=times)

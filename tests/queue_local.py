@@ -1,6 +1,6 @@
 from quelo.query import get_value
 from requem.commands.client import RemoteDatabasesClient
-from requem.remote_queue.queue import remote_connections
+from requem.queue import remote_connections
 from tests import connections
 from tests.connection import test_connection
 
