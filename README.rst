@@ -69,7 +69,10 @@ For the sake of comparison
 executing 1000 times:
 
 .. code-block:: sql
+
     select 1
+
+Takes (seconds):
 
 .. code-block::
 
